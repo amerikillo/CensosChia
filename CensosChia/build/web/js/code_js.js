@@ -759,7 +759,7 @@ function SelectUni(form) {
 //alert("hello2");
         var select = document.getElementById("slct_U");
         select.options.length = 0;
-        select.options[select.options.length] = new Option('CSR NUEVA REFORMA', 'CSR NUEVA REFORMA');
+        select.options[select.options.length] = new Option('CSR NUEVA REFORMA JURIS 6', 'CSR NUEVA REFORMA JURIS 6');
         select.options[select.options.length] = new Option('CSR NUEVO VERACRUZ', 'CSR NUEVO VERACRUZ');
         select.options[select.options.length] = new Option('CSR QUETZALCOALT', 'CSR QUETZALCOALT');
         select.options[select.options.length] = new Option('CSR ARROYO DELICIAS', 'CSR ARROYO DELICIAS');
@@ -939,7 +939,7 @@ function SelectUni(form) {
         var select = document.getElementById("slct_U");
         select.options.length = 0;
         select.options[select.options.length] = new Option('CSR FLOR DEL CARMEN', 'CSR FLOR DEL CARMEN');
-        select.options[select.options.length] = new Option('CSR NUEVA REFORMA', 'CSR NUEVA REFORMA');
+        select.options[select.options.length] = new Option('CSR NUEVA REFORMA JURIS 7', 'CSR NUEVA REFORMA JURIS 7');
         select.options[select.options.length] = new Option('CSR LAS BRISAS', 'CSR LAS BRISAS');
         select.options[select.options.length] = new Option('CSR FRANCISCO VILLA', 'CSR FRANCISCO VILLA');
         select.options[select.options.length] = new Option('CSR JIQUILPAN', 'CSR JIQUILPAN');
@@ -1213,6 +1213,11 @@ function SelectUni(form) {
         select.options[select.options.length] = new Option('CSR CARAVANA TIPO 0 GUADALUPE MAZANIL', 'CSR CARAVANA TIPO 0 GUADALUPE MAZANIL');
         select.options[select.options.length] = new Option('CSR CARAVANA TIPO 0 PARAISO CHICOTANIL', 'CSR CARAVANA TIPO 0 PARAISO CHICOTANIL');
         select.options[select.options.length] = new Option('CSR CARAVANA TIPO 0 POMILTIC', 'CSR CARAVANA TIPO 0 POMILTIC');
+        select.options[select.options.length] = new Option('CSR SAN QUINTIN', 'CSR SAN QUINTIN');
+        select.options[select.options.length] = new Option('CSR EL GUANAL', 'CSR EL GUANAL');
+        select.options[select.options.length] = new Option('CSR EL ZAPOTAL', 'CSR EL ZAPOTAL');
+        select.options[select.options.length] = new Option('CSR PATIHUITZ', 'CSR PATIHUITZ');
+        select.options[select.options.length] = new Option('CSR NAZARETH', 'CSR NAZARETH');
     }
 
 }
