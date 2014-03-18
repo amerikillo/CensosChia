@@ -700,7 +700,7 @@
                         <td class="style58">¿Con qu&eacute; frecuencia? </td>
                         <td>
                             <label>
-                                <textarea name="<%//=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%//=nombreC%>" onkeypress="return handleEnter(this, event);" ><%//=rset.getString(nombreC)%></textarea>
+                                <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" ><%=rset.getString(nombreC)%></textarea>
                                 
                                 <%//out.print(nombreC);%>
                             </label>
@@ -1423,10 +1423,10 @@
                                                 //var miTabla=new elements();
                                                 //elements[]={"txtf_ref","txtf_con","txtf_deb"};
                                                 var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
-                                                if (keyCode == 13) {
+                                                if (keyCode === 13) {
                                                     var i;
                                                     for (i = 0; i < field.form.elements.length; i++)
-                                                        if (field == field.form.elements[i])
+                                                        if (field === field.form.elements[i])
                                                             break;
                                                     i = (i + 1) % field.form.elements.length;
                                                     field.form.elements[i].focus();
@@ -1442,14 +1442,14 @@
                                                     return;
                                                 frm = obj.form;
                                                 for (i = 0; i < frm.elements.length; i++)
-                                                    if (frm.elements[i] == obj)
+                                                    if (frm.elements[i] === obj)
                                                     {
-                                                        if (i == frm.elements.length - 1)
+                                                        if (i === frm.elements.length - 1)
                                                             i = -1;
                                                         break
                                                     }
                                                 /*ACA ESTA EL CAMBIO*/
-                                                if (frm.elements[i + 1].disabled == true)
+                                                if (frm.elements[i + 1].disabled === true)
                                                     tabular(e, frm.elements[i + 1]);
                                                 else
                                                     frm.elements[i + 1].focus();
