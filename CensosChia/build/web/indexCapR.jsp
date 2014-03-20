@@ -126,7 +126,7 @@
                 </form-->
             </div>
 
-            <form name ="forma-login" id="forma-login" class="marco" action="CapturaCensos" method="post" >
+            <form name ="forma-login" id="forma-login" class="marco" action="CapturaCensos" method="Post" >
                 <br>
 
                 <div class="col-lg-12"><h4>Datos de la Unidad a Censar</h4></div>
@@ -224,6 +224,13 @@
                             </select>
                         </div>
                     </div>
+                </div>
+                <div class="checkbox">
+                    <div class="col-lg-4">
+                    </div>
+                    <label>
+                        Inventario de Prueba <input type="checkbox" name="prueba" id="prueba"> 
+                    </label>
                 </div>
 
                 <br> 

@@ -197,9 +197,32 @@
 
                     </td>
                 </tr>
+
                 <tr>
                     <td colspan="7"><div class="panel panel-primary">Porcentaje de Avance =<%=forma2.format((1 - avance) * 100)%> %</div></td>
                 </tr>
+                <%
+                    try {
+                        con.conectar();
+                        try {
+                            int banpr = 0;
+                            ResultSet rsetprueba = con.consulta("select * from tb_prueba where id_uni = '" + id_uni + "' ");
+                            while (rsetprueba.next()) {
+                                banpr = 1;
+                            }
+                            if (banpr == 1) {
+                %>
+                <tr>
+                    <td colspan="7"><div class="alert alert-danger">Inventario de Prueba</div></td>
+                </tr>
+                <%
+                            }
+                        } catch (Exception e) {
+                        }
+                        con.cierraConexion();
+                    } catch (Exception e) {
+                    }
+                %>
                 <tr>
                     <td colspan="3"  class="style58">Seleccione Secci&oacute;n
                         <a href="#a"><input name="a" id="btn_aa" data-toggle="tooltip" title="A. DATOS GENERALES" type="button" data-loading-text="Loading..." class="btn btn-primary" value="A" /> </a>

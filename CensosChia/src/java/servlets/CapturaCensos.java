@@ -86,7 +86,7 @@ public class CapturaCensos extends HttpServlet {
         //processRequest(request, response);
         if (request.getParameter("envio").equals("1")) {
             try {
-                captura.Captura(request.getParameter("id_uni"), request.getParameter("tipo"), request.getParameter("nombre_gnk"), request.getParameter("juris"), request.getParameter("fecha"), request.getParameter("hora"), request.getParameter("encuestador"), request.getParameter("muni"), request.getParameter("clues"));
+                captura.Captura(request.getParameter("id_uni"), request.getParameter("tipo"), request.getParameter("nombre_gnk"), request.getParameter("juris"), request.getParameter("fecha"), request.getParameter("hora"), request.getParameter("encuestador"), request.getParameter("muni"), request.getParameter("clues"), request.getParameter("prueba"));
             } catch (SQLException ex) {
                 Logger.getLogger(CapturaCensos.class.getName()).log(Level.SEVERE, null, ex);
             }

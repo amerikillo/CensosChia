@@ -5,7 +5,7 @@
     //----------------------------------Modulo de Sesiones
     HttpSession sesion = request.getSession();
     String val = "", user = "", id = "";
-       String id_uni ="";
+    String id_uni = "";
     session.getId();
     if (sesion.getAttribute("valida") != null) {
         val = (String) sesion.getAttribute("valida");
@@ -15,12 +15,10 @@
     }
     if (!val.equals("valida")) {
         response.sendRedirect("index.jsp");
- }
+    }
 //out.print (val+user+id+session.getId());
 //--------------------------------------------------------
     ConectionDB con = new ConectionDB();
-    
- 
 
 
 %>
@@ -156,7 +154,12 @@
                                         <%                                                    con.conectar();
                                             ResultSet rset2 = con.consulta("select t.id_uni, t.nombre_gnk, t.juris from tb_unidades t, tb_a ta where t.id_uni = ta.id_uni and ta.campo_31!='' order by id_uni asc");
                                             while (rset2.next()) {
-                                                out.println("<option value = '" + rset2.getString("id_uni") + "'>" + rset2.getString("juris") + " - " + rset2.getString("nombre_gnk") + "</option>");
+                                                String pru = "";
+                                                ResultSet rsetprueba = con.consulta("select * from tb_prueba where id_uni = '" + rset2.getString("id_uni") + "' ");
+                                                while (rsetprueba.next()) {
+                                                    pru = " - DE PRUEBA";
+                                                }
+                                                out.println("<option value = '" + rset2.getString("id_uni") + "'>" + rset2.getString("juris") + " - " + rset2.getString("nombre_gnk") + pru + "</option>");
                                             }
                                             con.cierraConexion();
                                         %>
@@ -187,6 +190,28 @@
                     <a href="#pic"><button name="pic" id="btn_pic" data-toggle="tooltip" title="G. PICTOGRÁFICO" type="button" data-loading-text="Loading..." class="btn btn-primary">PICTOGRÁFICO</button></a>
                 </td>
             </tr>
+            <%
+                try {
+                    con.conectar();
+                    try {
+                        int banpr = 0;
+                        ResultSet rsetprueba = con.consulta("select * from tb_prueba where id_uni = '" + id_uni + "' ");
+                        while (rsetprueba.next()) {
+                            banpr = 1;
+                        }
+                        if (banpr == 1) {
+            %>
+            <tr>
+                <td colspan="7"><div class="alert alert-danger">Inventario de Prueba</div></td>
+            </tr>
+            <%
+                        }
+                    } catch (Exception e) {
+                    }
+                    con.cierraConexion();
+                } catch (Exception e) {
+                }
+            %>
             <tr>
                 <td colspan="12"  class="style58">Elaborado Por: <input name="txtf_elab" id="txtf_elab" type="text" class="form-control neg" onkeypress="return handleEnter(this, event);" size="40" value="GNK Log&iacute;stica S.A. de C.V." /></td>
             </tr>
@@ -648,19 +673,19 @@
                     </td>
                 </tr>
                 <tr>
-                        <td class="style58"><div align="center">B.15</div></td>
-                        <td width="297" class="style58">Fecha de &uacute;ltima visita de Abasto</td>
-                        <td width="369" class="style58">
-                            <label>
-                                <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
-                                <%//out.print(nombreC);%>
-                            </label> 
-                        </td>
-                        <td class="style58">&nbsp;</td>
-                        <td class="style58">&nbsp;</td>
-                        <td class="style58">&nbsp;</td>
-                        <td class="style58">&nbsp;</td>
-                    </tr>
+                    <td class="style58"><div align="center">B.15</div></td>
+                    <td width="297" class="style58">Fecha de &uacute;ltima visita de Abasto</td>
+                    <td width="369" class="style58">
+                        <label>
+                            <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
+                            <%//out.print(nombreC);%>
+                        </label> 
+                    </td>
+                    <td class="style58">&nbsp;</td>
+                    <td class="style58">&nbsp;</td>
+                    <td class="style58">&nbsp;</td>
+                    <td class="style58">&nbsp;</td>
+                </tr>
                 <tr>
                     <td colspan="7" class="style58">
                         <div class="panel panel-primary">
