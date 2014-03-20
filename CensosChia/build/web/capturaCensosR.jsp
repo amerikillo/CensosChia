@@ -9,15 +9,17 @@
     String id_uni = "";
     session.getId();
     ConectionDB con = new ConectionDB();
+    int ban = 0;
 
     id_uni = (String) sesion.getAttribute("id_uni");
     try {
         con.conectar();
         ResultSet rset = con.consulta("select * from tb_a as a, tb_b as b, tb_c as c, tb_d as d, tb_e as e, tb_f as f, tb_unidades as clave where clave.id_uni=a.id_uni and clave.id_uni=b.id_uni and clave.id_uni=c.id_uni and clave.id_uni=d.id_uni and clave.id_uni=e.id_uni and clave.id_uni=f.id_uni and clave.id_uni = '" + id_uni + "';");
         while (rset.next()) {
+            ban = 1;
+
 %>
-<%
-    DecimalFormatSymbols simbolos = new DecimalFormatSymbols();
+<%    DecimalFormatSymbols simbolos = new DecimalFormatSymbols();
     simbolos.setDecimalSeparator('.');
     simbolos.setGroupingSeparator(',');
     DecimalFormat forma2 = new DecimalFormat("##,###.##", simbolos);
@@ -701,7 +703,7 @@
                         <td>
                             <label>
                                 <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" ><%=rset.getString(nombreC)%></textarea>
-                                
+
                                 <%//out.print(nombreC);%>
                             </label>
                         </td>
@@ -1338,11 +1340,19 @@
                 </form>
                 <%
                         }
+
                     } catch (Exception e) {
-                        out.println("Hola");
+                        //out.println("Hola");
                         out.println(e.getMessage());
                     }
+
                     con.cierraConexion();
+                %>
+                <%
+                    if (ban == 0) {
+                        out.println("<script>alert('Se detectó un error al momento de la carga, por favor ingrese nuevamente.')</script>");
+                        out.println("<script>window.location='indexCapR.jsp'</script>");
+                    }
                 %>
 
                 <td colspan="7" class="style47">
@@ -1408,6 +1418,7 @@
         </table>
     </body>
 </html>
+
 
 <!-- <script type="text/javascript"-->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -1483,20 +1494,20 @@
         campo = document.getElementById("campo_32").value;
         if (campo === "NO") {
             /*document.getElementById("campo_33").value = "NA";
-            document.getElementById("campo_34").value = "NA";*/
+             document.getElementById("campo_34").value = "NA";*/
             document.getElementById("campo_35").value = "NA";
 
             /*document.getElementById("campo_33").readOnly = true;
-            document.getElementById("campo_34").readOnly = true;*/
+             document.getElementById("campo_34").readOnly = true;*/
             document.getElementById("campo_35").readOnly = true;
         }
         if (campo === "SI") {
             /*document.getElementById("campo_33").value = "";
-            document.getElementById("campo_34").value = "";*/
+             document.getElementById("campo_34").value = "";*/
             document.getElementById("campo_35").value = "";
 
             /*document.getElementById("campo_33").readOnly = false;
-            document.getElementById("campo_34").readOnly = false;*/
+             document.getElementById("campo_34").readOnly = false;*/
             document.getElementById("campo_35").readOnly = false;
         }
     }

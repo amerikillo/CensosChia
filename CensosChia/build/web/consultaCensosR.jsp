@@ -154,7 +154,7 @@
                                     <select name="id_uni" id="id_yuni" class="form-control">
                                         <option>-- Seleccione Centro de Salud --</option>
                                         <%                                                    con.conectar();
-                                            ResultSet rset2 = con.consulta("select t.id_uni, t.nombre_gnk, t.juris from tb_unidades t, tb_a ta where t.id_uni = ta.id_uni order by id_uni asc");
+                                            ResultSet rset2 = con.consulta("select t.id_uni, t.nombre_gnk, t.juris from tb_unidades t, tb_a ta where t.id_uni = ta.id_uni and ta.campo_31!='' order by id_uni asc");
                                             while (rset2.next()) {
                                                 out.println("<option value = '" + rset2.getString("id_uni") + "'>" + rset2.getString("juris") + " - " + rset2.getString("nombre_gnk") + "</option>");
                                             }
@@ -191,7 +191,7 @@
                 <td colspan="12"  class="style58">Elaborado Por: <input name="txtf_elab" id="txtf_elab" type="text" class="form-control neg" onkeypress="return handleEnter(this, event);" size="40" value="GNK Log&iacute;stica S.A. de C.V." /></td>
             </tr>
             <%    con.conectar();
-                ResultSet rset = con.consulta("select * from tb_a as a, tb_b as b, tb_c as c, tb_d as d, tb_e as e, tb_f as f, tb_unidades as clave where clave.id_uni=a.id_uni and clave.id_uni=b.id_uni and clave.id_uni=c.id_uni and clave.id_uni=d.id_uni and clave.id_uni=e.id_uni and clave.id_uni=f.id_uni and  clave.id_uni = '" + id_uni + "';");
+                ResultSet rset = con.consulta("select * from tb_a as a, tb_b as b, tb_c as c, tb_d as d, tb_e as e, tb_f as f, tb_unidades as clave where clave.id_uni=a.id_uni and clave.id_uni=b.id_uni and clave.id_uni=c.id_uni and clave.id_uni=d.id_uni and clave.id_uni=e.id_uni and clave.id_uni=f.id_uni and a.campo_31!='' and  clave.id_uni = '" + id_uni + "';");
                 while (rset.next()) {
             %>
             <form  method="post" name="form_a" id="form_account_a" class="form-horizontal" action="GuardaSeccion" >

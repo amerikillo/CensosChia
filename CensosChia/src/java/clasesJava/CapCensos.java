@@ -32,6 +32,26 @@ public class CapCensos {
             } catch (Exception ex) {
             }
         }
+        try {
+            con.insertar("insert into tb_b (id_uni) values ('" + id_uni + "')");
+        } catch (Exception e) {
+        }
+        try {
+            con.insertar("insert into tb_c (id_uni) values ('" + id_uni + "')");
+        } catch (Exception e) {
+        }
+        try {
+            con.insertar("insert into tb_d (id_uni) values ('" + id_uni + "')");
+        } catch (Exception e) {
+        }
+        try {
+            con.insertar("insert into tb_e (id_uni) values ('" + id_uni + "')");
+        } catch (Exception e) {
+        }
+        try {
+            con.insertar("insert into tb_f values ('" + id_uni + "', '')");
+        } catch (Exception e) {
+        }
         con.cierraConexion();
     }
 }
