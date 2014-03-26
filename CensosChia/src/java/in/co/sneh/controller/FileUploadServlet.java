@@ -81,7 +81,7 @@ public class FileUploadServlet extends HttpServlet {
                 fue.printStackTrace();
             }
 
-            out.println("<script>alert('Se produjo un error al momento de la carga del censo, trate de nuevo')</script>");
+            out.println("<script>alert('Se subieron correctamente las imagenes.')</script>");
             out.println("<script>window.location='indexCapR.jsp'</script>");
             //response.sendRedirect("indexCapR.jsp");
         }

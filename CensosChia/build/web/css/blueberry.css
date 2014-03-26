@@ -34,6 +34,7 @@
 .blueberry .slides li img {
 	display: block;
 	width: 100%;
+        height: 500px;
 	max-width: none;
 }
 .blueberry .slides li.active { display: block; position: relative; }

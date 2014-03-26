@@ -759,6 +759,7 @@ function SelectUni(form) {
 //alert("hello2");
         var select = document.getElementById("slct_U");
         select.options.length = 0;
+        select.options[select.options.length] = new Option('CSR JOSHIL', 'CSR JOSHIL');
         select.options[select.options.length] = new Option('CSR NUEVA REFORMA JURIS 6', 'CSR NUEVA REFORMA JURIS 6');
         select.options[select.options.length] = new Option('CSR NUEVO VERACRUZ', 'CSR NUEVO VERACRUZ');
         select.options[select.options.length] = new Option('CSR QUETZALCOALT', 'CSR QUETZALCOALT');

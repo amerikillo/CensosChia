@@ -45,8 +45,7 @@ public class ClasesProc {
             String qry_cons = "select ti.id_uni from inventarios ti, tb_unidades tu where ti.id_uni = tu.id_uni group by ti.id_uni;";
             ResultSet consulta = null;
             consulta = objC.consulta(qry_cons);
-            if (consulta.next()) {
-                exito = true;
+            while(consulta.next()){
                 i++;
             }
             objC.cierraConexion();

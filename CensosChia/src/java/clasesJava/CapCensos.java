@@ -52,11 +52,20 @@ public class CapCensos {
             con.insertar("insert into tb_f values ('" + id_uni + "', '')");
         } catch (Exception e) {
         }
-        if (prueba.equals("on")) {
-            try {
+        try {
+            System.out.println(prueba);
+            if (prueba.equals("on")) {
                 con.insertar("insert into tb_prueba values ('" + id_uni + "', 'P')");
-            } catch (Exception e) {
             }
+
+        } catch (Exception e) {
+        }
+
+        try {
+            if (prueba == null) {
+                con.insertar("delete from tb_prueba where id_uni='" + id_uni + "' ");
+            }
+        } catch (Exception e) {
         }
 
         con.cierraConexion();

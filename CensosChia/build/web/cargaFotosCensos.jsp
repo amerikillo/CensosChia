@@ -224,7 +224,8 @@
                     </div>
                     <div class="modal-body">
                         <form name="form_com" method="post" id="form_com">
-                            Se están subiendo las imágenes.
+                            <img src='imagenes/loading.gif' width='100px' height='100px' align='center' />
+                            Se están subiendo las imágenes, por favor espere...
                         </form>
                     </div>
                 </div><!-- /.modal-content -->

@@ -213,7 +213,7 @@
                             if (banpr == 1) {
                 %>
                 <tr>
-                    <td colspan="7"><div class="alert alert-danger">Inventario de Prueba</div></td>
+                    <td colspan="7"><div class="alert alert-danger">Censo de Prueba</div></td>
                 </tr>
                 <%
                             }
@@ -1323,7 +1323,7 @@
                             <div class="panel panel-primary">
                                 <a name="f" id="f"></a>
                                 <!-- Default panel contents -->
-                                <div class="panel-heading">F.DESCRIBA OBSERVACIONES  Y/O COMENTARIOS GEERALES</div>
+                                <div class="panel-heading">F.DESCRIBA OBSERVACIONES  Y/O COMENTARIOS GENERALES</div>
                             </div>
                         </td>
                         <td class="style58">&nbsp;</td>

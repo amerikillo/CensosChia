@@ -38,6 +38,7 @@
 
     try {
         if (request.getParameter("consultar").equals("1")) {
+        System.out.println(request.getParameter("slct_U"));
             rset2 = obj.consulta("select id_uni, juris, muni, nombre_gnk, tipo, clues from tb_unidades where nombre_gnk = '" + request.getParameter("slct_U") + "' ");
             while (rset2.next()) {
                 id_uni = rset2.getString(1);
@@ -229,7 +230,7 @@
                     <div class="col-lg-4">
                     </div>
                     <label>
-                        Inventario de Prueba <input type="checkbox" name="prueba" id="prueba"> 
+                        Censo de Prueba <input type="checkbox" name="prueba" id="prueba"> 
                     </label>
                 </div>
 
@@ -255,7 +256,7 @@
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="css/MD5.js"></script>
-        <script type="text/javascript" src="js/code_js.js"></script>
+        <!--script type="text/javascript" src="js/code_js.js"></script-->
     </body>
 </html>
 <%
@@ -269,5 +270,34 @@
                             return false;
                         }
                         return true;
+                    }
+
+
+
+                    function SelectUni(form) {
+    <%
+        try {
+            obj.conectar();
+            ResultSet rset3 = obj.consulta("select DISTINCT juris from tb_unidades order by juris");
+            while (rset3.next()) {
+                out.println("if (form.slct_H.value == '" + rset3.getString(1) + "') {");
+                out.println("var select = document.getElementById('slct_U');");
+                out.println("select.options.length = 0;");
+                ResultSet rset4 = obj.consulta("select nombre_gnk from tb_unidades where juris = '" + rset3.getString(1) + "'");
+                while (rset4.next()) {
+                    out.println("select.options[select.options.length] = new Option('" + rset4.getString(1) + "', '" + rset4.getString(1) + "');");
+                }
+                out.println("}");
+            }
+            obj.cierraConexion();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    %>
+                        /*if (form.slct_H.value == 'JURISDICCION SANITARIA 1') {
+                         var select = document.getElementById("slct_U");
+                         select.options.length = 0;
+                         select.options[select.options.length] = new Option('CSR CRUZ CHIQUITA', 'CSR CRUZ CHIQUITA');
+                         }*/
                     }
 </script>

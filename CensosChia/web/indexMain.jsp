@@ -75,7 +75,12 @@
                             <td colspan="3" align="center"><img src="imagenes/censos_tit.png"  />  </td>
                         </tr>
                         <tr>
-                            <td colspan="3" class="der">Fecha:&nbsp;<%=date%>&nbsp;&nbsp;&nbsp;&nbsp;Hora:<span id="liveclock"></span>
+                            <td colspan="3" class="der">Fecha:&nbsp;
+                                <script>
+                                    var f = new Date();
+                                    document.write(f.getDate() + "/" + (f.getMonth() + 1) + "/" + f.getFullYear());
+                                </script>
+                                &nbsp;&nbsp;&nbsp;&nbsp;Hora:<span id="liveclock"></span>
                                 <br> Bienvenido <label class="glyphicon glyphicon-user"></label>&nbsp;&nbsp;<%=user%>
                             </td>
                         </tr>
@@ -88,6 +93,11 @@
                         <tr>
                             <td></td>
                             <td width="250" align="center"><h4><a href="http://166.78.128.202:8080/InventariosChiapas/index.jsp"><strong>Consulta de Inventarios</strong></a></h4></td>
+                            <td></td>
+                        </tr>
+                            <tr>
+                            <td></td>
+                            <td width="250" align="center"><h4><a href="estadisticasA.jsp"><strong>Estadísticas</strong></a></h4></td>
                             <td></td>
                         </tr>
                         <tr>

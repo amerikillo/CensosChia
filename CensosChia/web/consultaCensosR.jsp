@@ -122,6 +122,7 @@
             <div class="header">
                 <ul class="nav nav-pills pull-right">
                     <li class="active"><a href="indexMain.jsp">Men&uacute;</a></li>
+                    <li class=""><a href="estadisticasA.jsp">Ver Estadísticas</a></li>
                     <li><a data-toggle="modal" href="#myModal2">Instrucciones</a></li>
                     <li><a data-toggle="modal" href="#myModal">Sistemas</a></li>
                     <li><a href="index.jsp">Salir</a></li>
@@ -191,9 +192,14 @@
                 </td>
             </tr>
             <%
+                String enc = "";
                 try {
                     con.conectar();
                     try {
+                        ResultSet rset_enc = con.consulta("select encuestador from tb_registro_censos where seccion = 'INICIO' and id_uni = '" + id_uni + "' ");
+                        while (rset_enc.next()) {
+                            enc = rset_enc.getString(1);
+                        }
                         int banpr = 0;
                         ResultSet rsetprueba = con.consulta("select * from tb_prueba where id_uni = '" + id_uni + "' ");
                         while (rsetprueba.next()) {
@@ -202,7 +208,7 @@
                         if (banpr == 1) {
             %>
             <tr>
-                <td colspan="7"><div class="alert alert-danger">Inventario de Prueba</div></td>
+                <td colspan="7"><div class="alert alert-danger">Censo de Prueba</div></td>
             </tr>
             <%
                         }
@@ -213,7 +219,7 @@
                 }
             %>
             <tr>
-                <td colspan="12"  class="style58">Elaborado Por: <input name="txtf_elab" id="txtf_elab" type="text" class="form-control neg" onkeypress="return handleEnter(this, event);" size="40" value="GNK Log&iacute;stica S.A. de C.V." /></td>
+                <td colspan="12"  class="style58">Elaborado Por: <input name="txtf_elab" id="txtf_elab" type="text" class="form-control neg" onkeypress="return handleEnter(this, event);" size="40" value="GNKL Logística SA de CV - Encuestador: <%=enc%>" readonly /></td>
             </tr>
             <%    con.conectar();
                 ResultSet rset = con.consulta("select * from tb_a as a, tb_b as b, tb_c as c, tb_d as d, tb_e as e, tb_f as f, tb_unidades as clave where clave.id_uni=a.id_uni and clave.id_uni=b.id_uni and clave.id_uni=c.id_uni and clave.id_uni=d.id_uni and clave.id_uni=e.id_uni and clave.id_uni=f.id_uni and a.campo_31!='' and  clave.id_uni = '" + id_uni + "';");
@@ -1044,8 +1050,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="10" height="">
-                            <div class="blueberry" style="width: 600px; height: 500px;">
+                        <td colspan="10" >
+                            <div class="blueberry">
                                 <a name="pic" id="pic"></a>
                                 <ul class="slides">
                                     <%
@@ -1055,7 +1061,7 @@
                                             //out.print(qery);
                                             ResultSet rsetimg = con.consulta("select imagen from tb_imagenes where id_uni = '" + id_uni + "'");
                                             while (rsetimg.next()) {
-                                                out.print("<li><img src='imagenes/" + id_uni + "/" + rsetimg.getString("imagen") + "' width = '600px' height = '320px' /> </li>");
+                                                out.print("<li><img src='imagenes/" + id_uni + "/" + rsetimg.getString("imagen") + "' /></li>");
                                             }
                                             con.cierraConexion();
                                         } catch (Exception e) {
