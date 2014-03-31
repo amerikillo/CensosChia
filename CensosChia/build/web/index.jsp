@@ -65,7 +65,7 @@
      <div>Datos inv&aacute;lidos, intente otra vez...</div>
      <%
      }
-     session.invalidate();
+     //session.invalidate();
      %>
 <input type="hidden" name="hash" value="" class="form-control">
 <input type="hidden" name="ban" value="0" class="form-control">

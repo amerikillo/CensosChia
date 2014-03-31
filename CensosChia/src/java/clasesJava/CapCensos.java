@@ -17,6 +17,7 @@ public class CapCensos {
     ConectionDB con = new ConectionDB();
 
     public void Captura(String id_uni, String tipo, String gnombre_gnk, String juris, String fecha, String hora, String encuestador, String muni, String clues, String prueba) throws SQLException {
+        
         con.conectar();
         try {
             con.insertar("insert into tb_registro_censos values ('" + id_uni + "', '" + encuestador + "', NOW(), 'INICIO');");

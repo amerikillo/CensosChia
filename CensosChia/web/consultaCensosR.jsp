@@ -1,6 +1,9 @@
+<%@page import="java.text.DecimalFormatSymbols"%>
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page import="conn.ConectionDB"%>
-<%@ page contentType="text/html; charset=iso-8859-1" language="java" import="java.sql.*" session="true" errorPage="" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <%
     //----------------------------------Modulo de Sesiones
     HttpSession sesion = request.getSession();
@@ -20,41 +23,39 @@
 //--------------------------------------------------------
     ConectionDB con = new ConectionDB();
 
+    DecimalFormatSymbols simbolo = new DecimalFormatSymbols();
+    simbolo.setDecimalSeparator('.');
+    simbolo.setGroupingSeparator(',');
+    DecimalFormat format = new DecimalFormat("###,###.##", simbolo);
 
+    int ban_inv = 0;
+
+    try {
+        con.conectar();
+        ResultSet rset = con.consulta("select id_uni from inventarios where id_uni = '" + id_uni + "'");
+        while (rset.next()) {
+            ban_inv = 1;
+        }
+        con.cierraConexion();
+    } catch (Exception e) {
+
+    }
 %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
     <!-- DW6 -->
     <head>
-        <script language="javascript" src="list02.js"></script>
-        <script language="javascript" src="js/bootstrap-button.js"></script>
-        <script src="jquery/jquery.js" type="text/javascript"></script>
         <!-- Copyright 2005 Macromedia, Inc. All rights reserved. -->
         <title>:: CONSULTA DE CENSOS ::</title>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         <!-- Bootstrap core CSS -->
         <link href="css/blueberry.css" rel="stylesheet" />
         <link href="css/bootstrap.css" rel="stylesheet" />
-        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />
-        <link  href="css/bootstrap-responsive.css" rel="stylesheet" />
-        <link href="css/jumbotron-narrow.css" rel="stylesheet" />
-
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-
-        <script src ="Scripts/jquery-1.6.1.min.js" type = "text/javascript" ></script>
-        <!--link rel="stylesheet" href="css/mm_entertainment.css" type="text/css" /-->
-        <script language="javascript" src="js/codeJs.js"></script>
-        <script language="JavaScript" type="text/javascript" >
-
-            //--------------- LOCALIZEABLE GLOBALS ---------------
-            var d = new Date();
-            var monthname = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-            //Ensure correct for language. English is "January 1, 2004"
-            var TODAY = monthname[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
-            //---------------   END LOCALIZEABLE   ---------------
-
-            //<script language="javascript" src="list02.js">
-        </script>
+        <!--link href="css/bootstrap-responsive.css" rel="stylesheet" /-->
+        <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap.css" />
+        <link rel="stylesheet" href="css/cupertino/jquery-ui-1.10.3.custom.css" />
+        <!--link href="css/demo_table_jui.css" rel="stylesheet" type="text/css" /-->
+        <!--link href="css/jumbotron-narrow.css" rel="stylesheet" /-->
         <style type="text/css">
             <!--
             .style1 {
@@ -113,7 +114,6 @@
             .bs-example{
                 margin: 50px;
             }
-            -->
         </style>
     </head>
     <body>
@@ -122,10 +122,10 @@
             <div class="header">
                 <ul class="nav nav-pills pull-right">
                     <li class="active"><a href="indexMain.jsp">Men&uacute;</a></li>
-                    <li class=""><a href="estadisticasA.jsp">Ver EstadÌsticas</a></li>
+                    <li class=""><a href="estadisticasA.jsp">Ver Estad√≠sticas</a></li>
                     <li><a data-toggle="modal" href="#myModal2">Instrucciones</a></li>
                     <li><a data-toggle="modal" href="#myModal">Sistemas</a></li>
-                    <li><a href="index.jsp">Salir</a></li>
+                    <li><a href="salir.jsp">Salir</a></li>
                 </ul>
                 <h3 class="text-primary"><a name="top" id="top"></a>Consulta de Censos Rurales</h3>
             </div>
@@ -144,13 +144,48 @@
             </tr>
 
             <tr>
-                <form method="post">
+                <form method="post" name="form_censos" id="form_censos">
                     <td colspan="7"  class="style58">
+                        <!--div class="row">
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><label class="glyphicon glyphicon-header"></label></span>
+                                    <select class="form-control"  name="jurisdiccion" id = "jurisdiccion" onchange="rellenaMunis();">
+                                        <option>-- Seleccione Jurisdicci√≥n --</option>
+                                        <%                                            try {
+                                                con.conectar();
+                                                int no_jur = 1;
+                                                ResultSet rset = con.consulta("select u.juris from tb_unidades u, tb_a a where u.id_uni = a.id_uni and a.campo_31!='' group by u.juris order by u.id_uni+0");
+                                                while (rset.next()) {
+                                                    //out.println("<option value ='J"+no_jur+"'>"+rset.getString(1)+"</option>");
+                                                    String var[] = rset.getString(1).split(" ");
+                                                    out.println("<option value ='" + rset.getString(1) + "'>" + rset.getString(1) + "</option>");
+                                                    //no_jur++;
+                                                }
+                                                //no_jur=0;
+                                                con.cierraConexion();
+                                            } catch (Exception e) {
+                                            }
+                                        %>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="input-group">
                                     <span class="input-group-addon"><label class="glyphicon glyphicon-header"></label></span>
-                                    <select name="id_uni" id="id_yuni" class="form-control">
+                                    <select class="form-control" name="Munis" id="Munis" onchange="rellenaUnis();">
+                                        <option>-- Seleccione Municipio --</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div-->
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><label class="glyphicon glyphicon-header"></label></span>
+                                    <select name="id_uni" id="id_uni" class="form-control">
                                         <option>-- Seleccione Centro de Salud --</option>
                                         <%                                                    con.conectar();
                                             ResultSet rset2 = con.consulta("select t.id_uni, t.nombre_gnk, t.juris from tb_unidades t, tb_a ta where t.id_uni = ta.id_uni and ta.campo_31!='' order by id_uni asc");
@@ -185,10 +220,32 @@
                     <a href="#a"><input name="a" id="btn_aa" data-toggle="tooltip" title="A. DATOS GENERALES" type="button" data-loading-text="Loading..." class="btn btn-primary" value="A" /> </a>
                     <a href="#b"><input name="b" id="btn_bb" data-toggle="tooltip" title="B. TAREAS OPERACIONALES" type="button" data-loading-text="Loading..." class="btn btn-primary" value="B" /></a>
                     <a href="#c"><input name="c" id="btn_cc" data-toggle="tooltip" title="C. FARMACIA" type="button" data-loading-text="Loading..." class="btn btn-primary" value="C" /></a>
-                    <a href="#d"><input name="d" id="btn_dd" data-toggle="tooltip" title="D. ALMAC…N" type="button" data-loading-text="Loading..." class="btn btn-primary" value="D" /></a>
-                    <a href="#e"><input name="e" id="btn_ee" data-toggle="tooltip" title="E. EQUIPO DE C”MPUTO, INTERNET Y TELEFONÕA" type="button" data-loading-text="Loading..." class="btn btn-primary" value="E" /></a>
+                    <a href="#d"><input name="d" id="btn_dd" data-toggle="tooltip" title="D. ALMAC√âN" type="button" data-loading-text="Loading..." class="btn btn-primary" value="D" /></a>
+                    <a href="#e"><input name="e" id="btn_ee" data-toggle="tooltip" title="E. EQUIPO DE C√ìMPUTO, INTERNET Y TELEFON√çA" type="button" data-loading-text="Loading..." class="btn btn-primary" value="E" /></a>
                     <a href="#f"><input name="f" id="btn_ff" data-toggle="tooltip" title="F. DESCRIBA OBSERVACIONES Y/O COMENTARIOS GENERALES" type="button" data-loading-text="Loading..." class="btn btn-primary" value="F" /></a>
-                    <a href="#pic"><button name="pic" id="btn_pic" data-toggle="tooltip" title="G. PICTOGR¡FICO" type="button" data-loading-text="Loading..." class="btn btn-primary">PICTOGR¡FICO</button></a>
+                    <a href="#pic"><button name="pic" id="btn_pic" data-toggle="tooltip" title="G. PICTOGR√ÅFICO" type="button" data-loading-text="Loading..." class="btn btn-primary">PICTOGR√ÅFICO</button></a>
+
+
+                    <%
+                        String uni_mapa = "";
+                        try {
+                            con.conectar();
+                            ResultSet rset_mapa = con.consulta("select ubi_mapa_1 from tb_mapas where id_uni = '" + id_uni + "' ");
+                            while (rset_mapa.next()) {
+                                uni_mapa = rset_mapa.getString(1);
+                    %>
+                    <a href="#mapa"><button name="mapa" id="btn_mapa" data-toggle="tooltip" title="Ver el Mapa" type="button" data-loading-text="Loading..." class="btn btn-primary">VER EN EL MAPA</button></a>
+                    <%
+                            }
+                            con.cierraConexion();
+                        } catch (Exception e) {
+
+                        }
+                        if (ban_inv == 1) {
+                    %>
+                    <a href="#inv"><button name="inv" id="btn_inv" data-toggle="tooltip" title="INVENTARIO" type="button" data-loading-text="Loading..." class="btn btn-primary">INVENTARIO</button></a><%
+                        }
+                    %>
                 </td>
             </tr>
             <%
@@ -219,7 +276,7 @@
                 }
             %>
             <tr>
-                <td colspan="12"  class="style58">Elaborado Por: <input name="txtf_elab" id="txtf_elab" type="text" class="form-control neg" onkeypress="return handleEnter(this, event);" size="40" value="GNKL LogÌstica SA de CV - Encuestador: <%=enc%>" readonly /></td>
+                <td colspan="12"  class="style58">Elaborado Por: <input name="txtf_elab" id="txtf_elab" type="text" class="form-control neg" onkeypress="return handleEnter(this, event);" size="40" value="GNKL Log√≠stica SA de CV - Encuestador: <%=enc%>" readonly /></td>
             </tr>
             <%    con.conectar();
                 ResultSet rset = con.consulta("select * from tb_a as a, tb_b as b, tb_c as c, tb_d as d, tb_e as e, tb_f as f, tb_unidades as clave where clave.id_uni=a.id_uni and clave.id_uni=b.id_uni and clave.id_uni=c.id_uni and clave.id_uni=d.id_uni and clave.id_uni=e.id_uni and clave.id_uni=f.id_uni and a.campo_31!='' and  clave.id_uni = '" + id_uni + "';");
@@ -282,7 +339,7 @@
                 </tr>
                 <tr>
                     <td class="style58"><div align="center">A.5</div></td>
-                    <td class="style58">PoblaciÛn</td>
+                    <td class="style58">Poblaci√≥n</td>
                     <td class="style33"><strong>
                             <label>
                                 <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly ><%=rset.getString(nombreC)%></textarea>
@@ -497,7 +554,7 @@
                 </tr>
                 <tr>
                     <td class="style58"><div align="center">A.28</div></td>
-                    <td class="style58">øLa Unidad cuenta con Servicios?</td>
+                    <td class="style58">¬øLa Unidad cuenta con Servicios?</td>
                     <td class="style33"><strong>
                             <label>
                                 <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
@@ -506,7 +563,7 @@
                         </strong></td>
                     <td class="style58">&nbsp;</td>
                     <td class="style58">A.29</td>
-                    <td class="style58">øCu&aacute;ntos Servicios?</td>
+                    <td class="style58">¬øCu&aacute;ntos Servicios?</td>
                     <td> <label><textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
                             <%//out.print(nombreC);%></label>    
                     </td>
@@ -549,7 +606,7 @@
 
                 <tr> 
                     <td class="style58"><div align="center">B.1</div></td>
-                    <td class="style58">øExiste Sistema Inform&aacute;tico de Captura de Recetas?</td>
+                    <td class="style58">¬øExiste Sistema Inform&aacute;tico de Captura de Recetas?</td>
                     <td>
                         <span class="style49">
                             <label>
@@ -571,7 +628,7 @@
 
                 <tr>
                     <td class="style58"><div align="center">B.3</div></td>
-                    <td class="style58">&iquest;Cu·ntos medicamentos preescribe en promedio por receta?</td>
+                    <td class="style58">&iquest;Cu√°ntos medicamentos preescribe en promedio por receta?</td>
                     <td>
                         <label>
                             <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
@@ -591,7 +648,7 @@
 
                 <tr>
                     <td class="style58"><div align="center">B.5</div></td>
-                    <td class="style58">øCu&aacute;l es el consumo promedio mensual de piezas?</td>
+                    <td class="style58">¬øCu&aacute;l es el consumo promedio mensual de piezas?</td>
                     <td>
                         <label>
                             <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
@@ -626,7 +683,7 @@
                 </tr>
                 <tr>
                     <td class="style58"><div align="center">B.9</div></td>
-                    <td class="style58">øQui&eacute;n surte a esta Unidad de Atenci&oacute;n?</td>
+                    <td class="style58">¬øQui&eacute;n surte a esta Unidad de Atenci&oacute;n?</td>
                     <td>
                         <label>
                             <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
@@ -635,7 +692,7 @@
                     </td>
                     <td class="style58">&nbsp;</td>
                     <td class="style58"><div align="center">B.10</div></td>
-                    <td class="style58">øCon qu&eacute; frecuencia? </td>
+                    <td class="style58">¬øCon qu&eacute; frecuencia? </td>
                     <td>
                         <label>
                             <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
@@ -645,7 +702,7 @@
                 </tr>
                 <tr>
                     <td class="style58"><div align="center">B.11</div></td>
-                    <td class="style58">øCu&aacute;l es el nivel de abasto actual?</td>
+                    <td class="style58">¬øCu&aacute;l es el nivel de abasto actual?</td>
                     <td>
                         <label>
                             <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
@@ -655,13 +712,13 @@
                     <td class="style58">&nbsp;</td>
                     <td class="style58"><div align="center">B.12</div></td>
                     <td class="style58">
-                        øRealizan inventarios en la unidad? </td>
+                        ¬øRealizan inventarios en la unidad? </td>
                     <td> <label><textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
                             <%//out.print(nombreC);%></label></td>
                 </tr>
                 <tr>
                     <td class="style58"><div align="center">B.13</div></td>
-                    <td class="style58">øD&oacute;nde se guarda el insumo?</td>
+                    <td class="style58">¬øD&oacute;nde se guarda el insumo?</td>
                     <td>
                         <label>
                             <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
@@ -670,7 +727,7 @@
                     </td>
                     <td class="style58">&nbsp;</td>
                     <td class="style58"><div align="center">B.14</div></td>
-                    <td class="style58">øEsta unidad esta certificada? </td>
+                    <td class="style58">¬øEsta unidad esta certificada? </td>
                     <td>
                         <label>
                             <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
@@ -714,7 +771,7 @@
                 </tr>
                 <tr>
                     <td height="26" class="style47"><div align="center" class="style58">C.1</div></td>
-                    <td class="style58">øCuenta con Farmacia?</td>
+                    <td class="style58">¬øCuenta con Farmacia?</td>
                     <td><span class="style58">
                             <label>
                                 <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
@@ -724,7 +781,7 @@
                     </td>
                     <td class="style58">&nbsp;</td>
                     <td class="style58"><div align="center">C.2</div></td>
-                    <td class="style58">øManeja Controlados?</td>
+                    <td class="style58">¬øManeja Controlados?</td>
                     <td> <label><textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
                             <%//out.print(nombreC);%>
                         </label>    
@@ -747,7 +804,7 @@
                         </label></td>
                     <td class="style58">&nbsp;</td>
                     <td class="style58"><div align="center">C.4</div></td>
-                    <td class="style58">øQui&eacute;n atiende la farmacia?</td>
+                    <td class="style58">¬øQui&eacute;n atiende la farmacia?</td>
                     <td>
                         <label>
                             <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
@@ -774,7 +831,7 @@
                 </tr>
                 <tr>
                     <td class="style47"><div align="center" class="style58">C.7</div></td>
-                    <td class="style58">øCuenta con red fr&iacute;a?</td>
+                    <td class="style58">¬øCuenta con red fr&iacute;a?</td>
                     <td class="style58"><label>
                             <label>  <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
                                 <%//out.print(nombreC);%></label> 
@@ -812,7 +869,7 @@
                 </tr>
                 <tr>
                     <td class="style58"><div align="center">D.1</div></td>
-                    <td class="style58">øCuenta con &aacute;rea de almac&eacute;n?</td>
+                    <td class="style58">¬øCuenta con &aacute;rea de almac&eacute;n?</td>
                     <td> <label><textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
                             <%//out.print(nombreC);%>
                         </label>
@@ -847,13 +904,13 @@
                 </tr>
                 <tr>
                     <td class="style58"><div align="center">D.5</div></td>
-                    <td class="style58">øC&oacute;mo surten los Insumos M&eacute;dicos en el Almac&eacute;n?</td>
+                    <td class="style58">¬øC&oacute;mo surten los Insumos M&eacute;dicos en el Almac&eacute;n?</td>
                     <td> <label><textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
                             <%//out.print(nombreC);%></label>    
                     </td>
                     <td class="style58">&nbsp;</td>
                     <td class="style58"><div align="center">D.6</div></td>
-                    <td class="style58">øCuentan con &Aacute;rea para carga y descarga en el Almac&eacute;n?</td>
+                    <td class="style58">¬øCuentan con &Aacute;rea para carga y descarga en el Almac&eacute;n?</td>
                     <td> <label><textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
                             <%//out.print(nombreC);%></label>    
                     </td>
@@ -901,7 +958,7 @@
                             <div align="center">E.1</div>
                         </div>
                     </td>
-                    <td bgcolor="#FFFFFF" class="style58"> <strong class="neg">øCuenta con equipo de C&oacute;mputo?</strong></td>
+                    <td bgcolor="#FFFFFF" class="style58"> <strong class="neg">¬øCuenta con equipo de C&oacute;mputo?</strong></td>
                     <td class="style58">
                         <label>  <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
                             <%//out.print(nombreC);%>
@@ -914,7 +971,7 @@
 
                     <td>
                         <tr>
-                            <td class="style58" colspan="5">E.2 Equipo de CÛmputo:</td>
+                            <td class="style58" colspan="5">E.2 Equipo de C√≥mputo:</td>
                         </tr>
                         <tr> 
                             <td colspan="2">
@@ -966,7 +1023,7 @@
                                 <div align="center">E.3</div>
                             </div>
                         </td>
-                        <td bgcolor="#FFFFFF" class="style58">øCuenta con conexi&oacute;n a la Internet?</td>
+                        <td bgcolor="#FFFFFF" class="style58">¬øCuenta con conexi&oacute;n a la Internet?</td>
                         <td class="style58">
                             <span class="style47">
                                 <label> <textarea name="<%=nombreC = nomCam + (contCam += 1)%>" cols="40" class="form-control" id="<%=nombreC%>" onkeypress="return handleEnter(this, event);" readonly><%=rset.getString(nombreC)%></textarea>
@@ -1051,6 +1108,16 @@
                     </tr>
                     <tr>
                         <td colspan="10" >
+                            <div class="panel panel-primary">
+                                <a name="f" id="f"></a>
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">PICTOGR√ÅFICO</div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="10" >
                             <div class="blueberry">
                                 <a name="pic" id="pic"></a>
                                 <ul class="slides">
@@ -1070,15 +1137,132 @@
                                 </ul>
                             </div>
                         </td>
+                    </tr>
 
-                        <a name="abajo" id="abajo"></a>
+
+                    <%
+                        if (!uni_mapa.equals("")) {
+                    %>
+                    <tr>
+                        <td colspan="12">
+                            <div class="panel panel-primary">
+
+                                <a name='mapa'></a>
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">Mapa</div>
+                            </div>
+                        </td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="10" >
+                            <%
+                                try {
+                                    con.conectar();
+                                    ResultSet rset_mapa = con.consulta("select ubi_mapa_1, ubi_mapa_2 from tb_mapas where id_uni = '" + id_uni + "' ");
+                                    while (rset_mapa.next()) {
+                            %>
+                            <iframe width="900" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="<%=rset_mapa.getString(1)%>"></iframe><br /><small><a href="<%=rset_mapa.getString(2)%>" style="color:#0000FF;text-align:left" target="_blank">Ver mapa m√°s grande</a></small>
+                                <%
+                                        }
+                                        con.cierraConexion();
+                                    } catch (Exception e) {
+
+                                    }
+                                %>
+                        </td>
                     </tr>
                     <%
                         }
-
-                        con.cierraConexion();
                     %>
 
+                    <%
+                        if (ban_inv == 1) {
+                    %>
+                    <tr>
+                        <td colspan="10" >
+                            <div class="panel panel-primary">
+
+                                <a name="inv" id="inv"></a>
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">INVENTARIO</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <%                        String canti = "", fecha = "";
+                        try {
+                            con.conectar();
+                            ResultSet rset_inv = con.consulta("select u.nombre_gnk, i.fecha, sum(i.cant) as cant from tb_unidades u, inventarios i where i.id_uni = '" + id_uni + "' and u.id_uni = i.id_uni");
+                            while (rset_inv.next()) {
+                                fecha = rset_inv.getString("fecha");
+                                canti = rset_inv.getString("cant");
+                                canti = "" + format.format(Integer.parseInt(canti));
+                            }
+                            con.cierraConexion();
+                        } catch (Exception e) {
+                        }
+                    %>
+                    <tr>
+                        <td colspan="10" >
+                            <div class="form-group form-horizontal">
+
+                                <div class="col-sm-3 form-horizontal">
+                                    Cantidad de piezas
+                                </div>
+                                <div class="col-sm-2">
+                                    <input class="form-control" type="text" value="<%=canti%>" />
+                                </div>
+                                <div class="col-sm-3 form-horizontal">
+                                    Fecha de Captura
+                                </div>
+                                <div class="col-sm-2">
+                                    <input class="form-control" type="text" value="<%=fecha%>" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="10" >
+                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="dataTable">
+                                <thead>
+                                    <th width="7%" class="FECHA" >CLAVE</th>
+                                    <th width="51%" class="FECHA">DESCRIPCI&Oacute;N</th>
+                                    <th width="16%" class="FECHA">CADUCIDAD</th>
+                                    <th width="12%" class="FECHA">EXISTENCIAS</th>
+                                </thead>
+                                <tbody>
+                                    <!--Loop start, you could use a repeat region here-->
+                                    <%                        try {
+                                            con.conectar();
+                                            ResultSet rset_inv = con.consulta("select i.cla_pro, i.lot_pro, i.cad_pro, sum(i.cant) as cant, c.descrip from inventarios i, clave_med c where i.cla_pro = c.clave and i.id_uni = '" + id_uni + "' group by i.cla_pro, i.lot_pro, i.cad_pro");
+                                            while (rset_inv.next()) {
+                                    %>
+                                    <tr height="20">
+                                        <td class="negritas" align="center"><%=rset_inv.getString("cla_pro")%></td>
+                                        <td class="negritas" ><%=rset_inv.getString("descrip")%></td>
+                                        <td class="negritas" align="center"><%=rset_inv.getString("cad_pro")%></td>
+                                        <td colspan="3" align="center" class="negritas"><%=format.format(Integer.parseInt(rset_inv.getString("cant")))%></td>
+                                    </tr>
+                                    <%
+                                            }
+                                            con.cierraConexion();
+                                        } catch (Exception e) {
+
+                                        }
+                                    %>
+                                    <!--Loop end-->
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+
+
+                    <%
+                            }
+
+                        }
+                        con.cierraConexion();
+                    %>
             </form>      
 
             <td colspan="7" class="style47">
@@ -1097,7 +1281,7 @@
                         <div class="modal-body">
                             <img src="imagenes/GNKL_Small.JPG" />Previamente debes de checar que haya conexi&oacute;n a Internet<br>
                                 <ul>
-                                    <li>Seleccione la Unidad a consultar, y a continuaciÛn de clic en el boton "Ver"</li>
+                                    <li>Seleccione la Unidad a consultar, y a continuaci√≥n de clic en el boton "Ver"</li>
                                 </ul>
                         </div>
                         <div class="modal-footer">
@@ -1142,27 +1326,129 @@
 <!-- SlidesJS Required: Initialize SlidesJS with a jQuery doc ready -->
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="//code.jquery.com/jquery.js"></script>
-<script src="js/bootstrap-modal.js"></script>
+<!--script src="js/bootstrap-modal.js"></script-->
 <script src="js/jquery.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/bjqs-1.3.min.js"></script>
-<script src="js/libs/jquery.secret-source.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<!--script src="js/bjqs-1.3.min.js"></script-->
+<script src="js/jquery-ui-1.10.3.custom.js"></script>
+<!--script src="js/libs/jquery.secret-source.min.js"></script-->
 <script src="js/jquery.blueberry.js"></script>
+<script src="js/jquery.dataTables.js"></script>
+<script src="js/dataTables.bootstrap.js"></script>
 <script>
-                                        $(window).load(function() {
-                                            $('.blueberry').blueberry();
+                                        $(document).ready(function() {
+                                            $('#dataTable').dataTable();
                                         });
 </script>
+<script>
+    $(window).load(function() {
+        $('.blueberry').blueberry();
+    });
+</script>
 <!-- End SlidesJS Required -->
+<script>
+    function abrirVentana(url) {
+        //alert(url);
+        window.open(url, "nuevo", "directories=no, location=no, menubar=no, scrollbars=yes, statusbar=no, tittlebar=no, width=900, height=600");
+    }
+    function rellenaMunis() {
+        //alert('hola');
+        var juris = document.getElementById('jurisdiccion').value;
+        //alert('hola');
+        removeAllOptions(document.getElementById('Munis'));
+        addOption(document.getElementById('Munis'), '', 'Seleccione un Municipio');
+    <%
+        try {
+            con.conectar();
+            ResultSet rset_jur = con.consulta("select u.juris from tb_unidades u, tb_a a where u.id_uni = a.id_uni and a.campo_31!='' group by u.juris order by u.id_uni+0");
+            while (rset_jur.next()) {
+                System.out.println("if (document.getElementById('jurisdiccion').value === '" + rset_jur.getString(1) + "') {");
+                out.println("if (document.getElementById('jurisdiccion').value === '" + rset_jur.getString(1) + "') {");
+                ResultSet rset_mun = con.consulta("select u.muni from tb_unidades u, tb_a a where u.id_uni = a.id_uni and a.campo_31!='' and juris='" + rset_jur.getString(1) + "' group by u.muni order by u.id_uni+0");
+                while (rset_mun.next()) {
+                    System.out.println("addOption(document.getElementById('Munis'), '" + rset_mun.getString("muni") + "', '" + rset_mun.getString("muni") + "');");
+                    out.println("addOption(document.getElementById('Munis'), '" + rset_mun.getString("muni") + "', '" + rset_mun.getString("muni") + "');");
+                }
+                System.out.println("}");
+                out.println("}");
+            }
+            con.cierraConexion();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    %>
+    }
+
+
+
+    function rellenaUnis() {
+        //alert('hola');
+        var juris = document.getElementById('Munis').value;
+        //alert(juris);
+        removeAllOptions(document.getElementById('id_uni'));
+        addOption(document.getElementById('id_uni'), '', 'Seleccione una Unidad');
+    <%
+        try {
+            con.conectar();
+            ResultSet rset_jur = con.consulta("select u.muni from tb_unidades u, tb_a a where u.id_uni = a.id_uni and a.campo_31!='' group by u.muni order by u.id_uni+0");
+            while (rset_jur.next()) {
+                System.out.println("if (document.getElementById('Munis').value === '" + rset_jur.getString(1) + "') {");
+                out.println("if (document.getElementById('Munis').value === '" + rset_jur.getString(1) + "') {");
+                ResultSet rset_mun = con.consulta("select u.id_uni, u.nombre_gnk from tb_unidades u, tb_a a where u.id_uni = a.id_uni and a.campo_31!='' and muni='" + rset_jur.getString(1) + "' group by u.muni order by u.id_uni+0");
+                while (rset_mun.next()) {
+                    System.out.println("addOption(document.getElementById('id_uni'), '" + rset_mun.getString("id_uni") + "', '" + rset_mun.getString("nombre_gnk") + "');");
+                    out.println("addOption(document.getElementById('id_uni'), '" + rset_mun.getString("id_uni") + "', '" + rset_mun.getString("nombre_gnk") + "');");
+                }
+                System.out.println("}");
+                out.println("}");
+            }
+            con.cierraConexion();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    %>
+    }
+
+
+    function removeAllOptions(selectbox)
+    {
+        var i;
+        for (i = selectbox.options.length - 1; i >= 0; i--)
+        {
+            //selectbox.options.remove(i);
+            selectbox.remove(i);
+        }
+    }
+
+
+    function removeAllOptions(selectbox)
+    {
+        var i;
+        for (i = selectbox.options.length - 1; i >= 0; i--)
+        {
+            //selectbox.options.remove(i);
+            selectbox.remove(i);
+        }
+    }
+
+    function addOption(selectbox, value, text)
+    {
+        var optn = document.createElement("OPTION");
+        optn.text = text;
+        optn.value = value;
+        selectbox.options.add(optn);
+        //putString(optn.valueoptions
+        // var cad2= document.form1.SubCat.value;
+
+    }
+</script>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#form').submit(function() {
 
-            //alert("IngresÛ");
+            //alert("Ingres√≥");
             return false;
         });
-
-
         $('#form_com').submit(function() {
             //alert("huges");
             return false;
@@ -1180,7 +1466,6 @@
                 var dataString = $('#form_com').serialize();
                 //alert('Datos serializados: '+dataString);
                 var dir = 'servletCorreo';
-
                 $.ajax({
                     url: dir,
                     type: "POST",
@@ -1196,16 +1481,13 @@
                 });
             }
         });
-
-    });
-</script>
+    });</script>
 <script>
     $(document).ready(function() {
         $('.carousel').carousel({
             interval: 3000
         });
-    });
-</script>
+    });</script>
 <script type="text/javascript">
     $(document).ready(function() {
 
@@ -1216,14 +1498,11 @@
                 $('.scrollup').fadeOut();
             }
         });
-
         $('.scrollup').click(function() {
             $("html, body").animate({scrollTop: 0}, 600);
             return false;
         });
-
-    });
-</script>
+    });</script>
 <script type="text/javascript">
     $(function() {
         $(".popover-examples a").popover({

@@ -45,6 +45,7 @@
             @media print {
                 #datos {font-size: 9px;}
                 #tabla {width: 800px;}
+                #principal{margin-left: 0px;}
                 #navi {display:none;}
                 #cont {display:none;}
             }
@@ -73,7 +74,7 @@
                         <li><a data-toggle="modal" href="#myModal">Sistemas</a></li-->
                         <li class="active"><A HREF="javascript:window.print()">Imprimir</A></li>
                         <li class=""><A HREF="exportarExcel.jsp">Exportar Información</A></li>
-                        <li><a href="index.jsp">Salir</a></li>
+                        <li><a href="salir.jsp">Salir</a></li>
                     </ul>
                 </div>
             </div>
@@ -101,7 +102,7 @@
                         <li class=""><a href="estadisticasE.jsp">Sección E - EQUIPO DE CÓMPUTO, INTERNET Y TELEFONÍA</a></li>
                     </ul>
                 </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="principal">
                     <a name="a1"></a>
                     <h1 class="page-header">A. DATOS GENERALES</h1>
                     <h4>Total de Unidades Censadas: <%=tam_cen%></h4>
@@ -291,8 +292,29 @@
                 while (rset.next()) {
                     String[] result = rset.getString(1).split(" ");
                     String juris = result[2];
+					String nom_js="";
+					if (result[2].equals("1"))
+						nom_js="TUXTLA GUTIÉRREZ";
+					if (result[2].equals("2"))
+						nom_js="SAN CRISTÓBAL DE LAS CASAS";
+					if (result[2].equals("3"))
+						nom_js="COMITÁN";
+					if (result[2].equals("4"))
+						nom_js="VILLAFLORES";
+					if (result[2].equals("5"))
+						nom_js="PICHUCALCO";
+					if (result[2].equals("6"))
+						nom_js="PALENQUE";
+					if (result[2].equals("7"))
+						nom_js="TAPACHULA";
+					if (result[2].equals("8"))
+						nom_js="TONALÁ";
+					if (result[2].equals("9"))
+						nom_js="OCOSINGO";
+					if (result[2].equals("10"))
+						nom_js="MOTOZINTLA";
         %>
-                        ['J.S. <%=juris%>', <%=rset.getString(2)%>],
+                        ['J.S. <%=juris%> <%=nom_js%>', <%=rset.getString(2)%>],
         <%
                 }
                 con.cierraConexion();
@@ -357,7 +379,7 @@
                 text: 'Escala de módulos'
                 },
                 tooltip: {
-                pointFormat: '{point.y} módulo(s)'
+                pointFormat: '{point.y} Unidad(es)'
                 },
                 plotOptions: {
                 pie: {
@@ -380,13 +402,13 @@
                 ResultSet rset = con.consulta("SELECT campo_14, count(campo_14), (campo_14*count(campo_14)) as total from tb_a where campo_14 not in ('NA', 'N/A','0') and campo_31!='' group by campo_14 ;");
                 while (rset.next()) {
         %>
-                        ['<%=rset.getString(2)%> UA con <%=rset.getString(1)%> módulo(s)', <%=rset.getString(3)%>],
+                        ['Unidades con <%=rset.getString(1)%> módulo(s)', <%=rset.getString(2)%>],
         <%
             }
             rset = con.consulta("SELECT campo_14, count(campo_14) from tb_a where campo_14 ='NA' or campo_14='N/A' and campo_31!='' ;");
             while (rset.next()) {
         %>
-                        //['0', <%=rset.getString(2)%>],
+                        ['Unidades con 0 módulos', <%=rset.getString(2)%>],
         <%
                 }
                 con.cierraConexion();
@@ -790,7 +812,7 @@
         %>
                 },
                 tooltip: {
-                pointFormat: '{point.y} Médico(s)'
+                pointFormat: '<b>{point.y} Unidad(es)</b>'
                 },
                 plotOptions: {
                 pie: {
@@ -813,13 +835,13 @@
                 ResultSet rset = con.consulta("SELECT campo_21, count(campo_21), (campo_21*count(campo_21)) as total from tb_a where campo_21 not in ('NA', 'N/A', 'NO HA','0') and campo_31!='' group by campo_21 ;");
                 while (rset.next()) {
         %>
-                        ['<%=rset.getString(2)%> UA con <%=rset.getString(1)%> médico(s)', <%=rset.getString(3)%>],
+                        ['Unidades con <%=rset.getString(1)%> médico(s)', <%=rset.getString(2)%>],
         <%
             }
             rset = con.consulta("SELECT campo_21, count(campo_21) from tb_a where campo_21 ='NA' or campo_21='N/A' or campo_21='NO HA' or campo_21 = '0' and campo_31!='' ;");
             while (rset.next()) {
         %>
-                        //['0', <%=rset.getString(2)%>],
+                        ['Unidades con 0 Médicos', <%=rset.getString(2)%>],
         <%
                 }
                 con.cierraConexion();
@@ -844,7 +866,7 @@
                 ResultSet rset = con.consulta("SELECT campo_23, sum(campo_23) from tb_a where campo_23 not in ('NA', 'N/A', 'NO HA') and campo_23!='' ;");
                 while (rset.next()) {
         %>
-                text: 'Total de médicos pasantes: <%=rset.getString(2)%>',
+                text: 'Total de médicos pasantes: <%=rset.getString(2)%> \n Las unidades con 0 MPSS pueden haber estado cerradas',
                         x: - 20
         <%
                 }
@@ -854,7 +876,7 @@
         %>
                 },
                 tooltip: {
-                pointFormat: '{point.y} MPSS'
+                pointFormat: '<b>{point.y} Unidad(es)</b>'
                 },
                 plotOptions: {
                 pie: {
@@ -877,13 +899,13 @@
                 ResultSet rset = con.consulta("SELECT campo_23, count(campo_23), (campo_23*count(campo_23)) as total  from tb_a where campo_23 not in ('NA', 'N/A', 'NO HA') and campo_31!='' group by campo_23 ;");
                 while (rset.next()) {
         %>
-                        ['<%=rset.getString(2)%> UA con <%=rset.getString(1)%> MPSS', <%=rset.getString(3)%>],
+                        ['Unidades con <%=rset.getString(1)%> MPSS', <%=rset.getString(2)%>],
         <%
             }
             rset = con.consulta("SELECT campo_23, count(campo_23) from tb_a where campo_23 ='NA' or campo_23='N/A' or campo_23='NO HA' and campo_31!='' ;");
             while (rset.next()) {
         %>
-                        //['0', <%=rset.getString(2)%>],
+                        ['Unidades con 0 MPSS', <%=rset.getString(2)%>],
         <%
                 }
                 con.cierraConexion();
@@ -918,7 +940,7 @@
         %>
                 },
                 tooltip: {
-                pointFormat: '{point.y} Enfermera(s)'
+                pointFormat: '<b>{point.y} Unidad(es)</b>'
                 },
                 plotOptions: {
                 pie: {
@@ -941,13 +963,13 @@
                 ResultSet rset = con.consulta("SELECT campo_24, count(campo_24), (campo_24*count(campo_24)) as total  from tb_a where campo_24 not in ('NA', 'N/A', 'NO HA') and campo_31!='' group by campo_24 ;");
                 while (rset.next()) {
         %>
-                        ['<%=rset.getString(2)%> UA con <%=rset.getString(1)%> Enfermera(s)', <%=rset.getString(3)%>],
+                        ['Unidades con <%=rset.getString(1)%> enfermera(s)', <%=rset.getString(2)%>],
         <%
             }
             rset = con.consulta("SELECT campo_24, count(campo_24) from tb_a where campo_24 ='NA' or campo_24='N/A' or campo_24='NO HA' and campo_31!='' ;");
             while (rset.next()) {
         %>
-                        //['0', <%=rset.getString(2)%>],
+                        ['Unidades con 0 enfermeras', <%=rset.getString(2)%>],
         <%
                 }
                 con.cierraConexion();
@@ -1055,7 +1077,7 @@
                                     text: 'Escala de no. de servicios'
                                     },
                                     tooltip: {
-                                    pointFormat: '{point.y} Servicio(s)'
+                                    pointFormat: '{point.y} Unidad(es)'
                                     },
                                     plotOptions: {
                                     pie: {
@@ -1078,13 +1100,13 @@
                 ResultSet rset = con.consulta("SELECT campo_29, count(campo_29), (campo_29*count(campo_29)) from tb_a where campo_29 not in ('NA', 'N/A') and campo_31!='' group by campo_29 ;");
                 while (rset.next()) {
         %>
-                                             ['<%=rset.getString(2)%> UA con <%=rset.getString(1)%> Servicio(s)', <%=rset.getString(3)%>],
+                                             ['Unidades con <%=rset.getString(1)%> servicio(s)', <%=rset.getString(2)%>],
         <%
             }
             rset = con.consulta("SELECT campo_29, count(campo_29) from tb_a where campo_29 ='NA' or campo_29='N/A' and campo_31!='' ;");
             while (rset.next()) {
         %>
-                                            //['0', <%=rset.getString(2)%>],
+                                            ['Unidades con 0 servicios', <%=rset.getString(2)%>],
         <%
                 }
                 con.cierraConexion();

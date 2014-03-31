@@ -25,7 +25,7 @@
 
 			//default values for plugin options
 			var defaults = {
-				interval: 5000,
+				interval: 10000,
 				duration: 500,
 				lineheight: 1,
 				height: 'auto', //reserved
@@ -45,7 +45,7 @@
 				var pager = $('.pager li', obj);
 
 				//set initial current and next slide index values
-				var current = 1;
+				var current = 0;
 				var next = current+1;
 
 				//get height and width of initial slide image and calculate size ratio
@@ -108,7 +108,7 @@
 					//update current and next vars to reflect slide change
 					//set next as first slide if current is the last
 					current = next;
-					next = current >= slides.length-1 ? 1 : current+1;
+					next = current >= slides.length-1 ? 0 : current+1;
 				};
 				//create a timer to control slide rotation interval
 				var rotateTimer = function(){

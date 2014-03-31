@@ -45,6 +45,7 @@
             @media print {
                 #datos {font-size: 11px;}
                 #tabla {width: 800px;}
+                #principal{margin-left: 0px;}
                 #navi {display:none;}
                 #cont {display:none;}
             }
@@ -71,7 +72,7 @@
                         <li><a data-toggle="modal" href="#myModal">Sistemas</a></li-->
                         <li class="active"><A HREF="javascript:window.print()">Imprimir</A></li>
                         <li class=""><A HREF="exportarExcel.jsp">Exportar Información</A></li>
-                        <li><a href="index.jsp">Salir</a></li>
+                        <li><a href="salir.jsp">Salir</a></li>
                     </ul>
                 </div>
             </div>
@@ -98,7 +99,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="principal">
                     <a name="a1"></a>
                     <h1 class="page-header">D. ALMACÉN</h1>
                     <h4>Total de Unidades Censadas: <%=tam_cen%></h4>
@@ -250,7 +251,7 @@
                         data: [
         <%                                try {
                 con.conectar();
-                ResultSet rset = con.consulta("select campo_59,count(campo_59) from tb_d where campo_59!='' and campo_59!= 'NA' and campo_59!= 'N/A' GROUP BY campo_59 order by campo_59+0;");
+                ResultSet rset = con.consulta("select SUBSTRING_INDEX(campo_59,'=',-1),count(SUBSTRING_INDEX(campo_59,'=',-1)) from tb_d where campo_59!='' and campo_59!= 'NA' and campo_59!= 'N/A' GROUP BY SUBSTRING_INDEX(campo_59,'=',-1) order by SUBSTRING_INDEX(campo_59,'=',-1)+0;");
                 while (rset.next()) {
         %>
                             ['<%=rset.getString(1)%>', <%=rset.getString(2)%>],

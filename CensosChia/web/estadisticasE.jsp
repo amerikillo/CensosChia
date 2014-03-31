@@ -44,6 +44,7 @@
             @media print {
                 /*#datos {font-size: 12px;}
                 #tabla {width: 800px;}*/
+                #principal{margin-left: 0px;}
                 #navi {display:none;}
                 #cont {display:none;}
             }
@@ -70,7 +71,7 @@
                         <li><a data-toggle="modal" href="#myModal">Sistemas</a></li-->
                         <li class="active"><A HREF="javascript:window.print()">Imprimir</A></li>
                         <li class=""><A HREF="exportarExcel.jsp">Exportar Información</A></li>
-                        <li><a href="index.jsp">Salir</a></li>
+                        <li><a href="salir.jsp">Salir</a></li>
                     </ul>
                 </div>
             </div>
@@ -94,7 +95,7 @@
                         </ul>
                     </ul>
                 </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="principal">
                     <a name="a1"></a>
                     <h1 class="page-header">E. EQUIPO DE CÓMPUTO, INTERNET Y TELEFONÍA</h1>
                     <h4>Total de Unidades Censadas: <%=tam_cen%></h4>

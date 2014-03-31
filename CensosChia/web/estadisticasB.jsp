@@ -45,6 +45,7 @@
             @media print {
                 #datos {font-size: 11px;}
                 #tabla {width: 800px;}
+                #principal{margin-left: 0px;}
                 #navi {display:none;}
                 #cont {display:none;}
             }
@@ -72,7 +73,7 @@
                             <li><a data-toggle="modal" href="#myModal">Sistemas</a></li-->
                             <li class="active"><A HREF="javascript:window.print()">Imprimir</A></li>
                         <li class=""><A HREF="exportarExcel.jsp">Exportar Información</A></li>
-                            <li><a href="index.jsp">Salir</a></li>
+                            <li><a href="salir.jsp">Salir</a></li>
                         </ul>
                     </ul>
                 </div>
@@ -102,7 +103,7 @@
                         <li class=""><a href="estadisticasE.jsp">Sección E - EQUIPO DE CÓMPUTO, INTERNET Y TELEFONÍA</a></li>
                     </ul>
                 </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main " id="principal">
                     <a name="a1"></a>
                     <h1 class="page-header">B. TAREAS OPERACIONALES</h1>
                     <h4>Total de Unidades Censadas: <%=tam_cen%></h4>
@@ -113,10 +114,10 @@
                     <a name="a2"></a>
                     <h4 class="page-header">Rangos de Consumo</h4>
                     <div class="row placeholders">
-                        <div id="e3" class="col-lg-12"></div>
+                        <div id="e2" class="col-lg-12"></div>
                     </div>
                     <div class="row placeholders">
-                        <div id="e2" class="col-lg-12"></div>
+                        <div id="e3" class="col-lg-12"></div>
                     </div>
                     <div class="row placeholders">
                         <div id="e4" class="col-lg-12"></div>
@@ -309,14 +310,32 @@
                         name: 'Recetas',
                         data: [
         <%                                try {
+			int r1 = 0, r2 = 0, r3 = 0;
                 con.conectar();
-                ResultSet rset = con.consulta("select campo_33,count(campo_33) from tb_b where campo_33!='' and campo_33!= 'NA' and campo_33!= 'N/A' GROUP BY campo_33 order by campo_33+0;");
+                ResultSet rset = con.consulta("select campo_33,count(campo_33) from tb_b where campo_33!='' and campo_33!= 'NA' and campo_33!= 'N/A' GROUP BY id_uni order by campo_33+0;");
                 while (rset.next()) {
-        %>
-                            ['<%=rset.getString(1)%>', <%=rset.getString(2)%>],
-        <%
+					int total=0;
+					try{
+						total = Integer.parseInt((rset.getString(1)));
+						System.out.println("---" + total);
+	
+						if (total >= 1 && total <= 19) {
+							r1++;
+						}
+						if (total >= 20 && total <= 59) {
+							r2++;
+						}
+						if (total >= 60 && total <= 500) {
+							r3++;
+						}
+					} catch (Exception e){}
                 }
                 con.cierraConexion();
+				%>
+				['1 a 19', <%=r1%>],
+                                    ['20 a 59', <%=r2%>],
+                                    ['Mas de 60', <%=r3%>],
+				<%
             } catch (Exception e) {
             }
         %>
@@ -331,7 +350,7 @@
                     type: 'column'
                 },
                 title: {
-                    text: 'B.3 Medicamentos preescritos por receta'
+                    text: 'B.3 Medicamentos prescritos por receta'
                 },
                 tooltip: {
                     // pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

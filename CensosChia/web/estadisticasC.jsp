@@ -45,6 +45,7 @@
             @media print {
                 #datos {font-size: 11px;}
                 #tabla {width: 800px;}
+                #principal{margin-left: 0px;}
                 #navi {display:none;}
                 #cont {display:none;}
             }
@@ -71,7 +72,7 @@
                         <li><a data-toggle="modal" href="#myModal">Sistemas</a></li-->
                         <li class="active"><A HREF="javascript:window.print()">Imprimir</A></li>
                         <li class=""><A HREF="exportarExcel.jsp">Exportar Información</A></li>
-                        <li><a href="index.jsp">Salir</a></li>
+                        <li><a href="salir.jsp">Salir</a></li>
                     </ul>
                 </div>
             </div>
@@ -97,7 +98,7 @@
                         <li class=""><a href="estadisticasE.jsp">Sección E - EQUIPO DE CÓMPUTO, INTERNET Y TELEFONÍA</a></li>
                     </ul>
                 </div>
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="principal">
                     <a name="a1"></a>
                     <h1 class="page-header">C. FARMACIA</h1>
                     <h4>Total de Unidades Censadas: <%=tam_cen%></h4>
@@ -178,7 +179,7 @@
                     plotShadow: false
                 },
                 title: {
-                    text: 'Total de U.A. con y sin almacén'
+                    text: 'Total de U.A. con y sin farmacia'
                 },
                 tooltip: {
                     pointFormat: 'Tienen farmacia: {point.y} Unidades'
@@ -368,14 +369,23 @@
                                 data: [
         <%                                try {
                 con.conectar();
-                ResultSet rset = con.consulta("select campo_53,count(campo_53) from tb_c where campo_53!='' and campo_53!= 'NA' and campo_53!= 'N/A' GROUP BY campo_53 order by campo_53+0;");
+                ResultSet rset = con.consulta("select SUBSTRING_INDEX(campo_53,'=',-1),count(SUBSTRING_INDEX(campo_53,'=',-1)) from tb_c where campo_53!='' and campo_53!= 'NA' and campo_53!= 'N/A' GROUP BY SUBSTRING_INDEX(campo_53,'=',-1) order by SUBSTRING_INDEX(campo_53,'=',-1)+0;");
                 while (rset.next()) {
+                    String area = rset.getString(1);
+                    try {
+                        String medi[] = rset.getString(1).split("=");
+                        area = medi[1];
+                    } catch (Exception e) {
+                    }
+                    System.out.println("----" + area + "****");
+
         %>
-                                    ['<%=rset.getString(1)%>', <%=rset.getString(2)%>],
+                                    ['<%=area%>', <%=rset.getString(2)%>],
         <%
                 }
                 con.cierraConexion();
             } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         %>
 

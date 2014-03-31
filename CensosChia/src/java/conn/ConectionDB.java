@@ -109,6 +109,7 @@ public class ConectionDB {
 
 //METODOS PARA TRABAJAR CON LA BASE DE DATOS
     public ResultSet consulta(String consulta) throws SQLException {
+        System.out.println(consulta);
         this.estancia = (Statement) conn.createStatement();
 
         return this.estancia.executeQuery(consulta);

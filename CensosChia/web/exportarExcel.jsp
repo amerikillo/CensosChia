@@ -26,6 +26,7 @@
         <table border="1">
 
             <tr>
+                <td>Encuestador</td>
                 <td>No. de la Unidad</td>
                 <td>A.1 Nombre de la    Unidad</td>
                 <td>A.2 Dirección</td>
@@ -103,6 +104,12 @@
                     ResultSet rset = con.consulta("select * from tb_a as a, tb_b as b, tb_c as c, tb_d as d, tb_e as e, tb_f as f, tb_unidades as clave where clave.id_uni=a.id_uni and clave.id_uni=b.id_uni and clave.id_uni=c.id_uni and clave.id_uni=d.id_uni and clave.id_uni=e.id_uni and clave.id_uni=f.id_uni and a.campo_31!='' order by a.id_uni+0");
                     while (rset.next()) {
                         out.println("<tr>");
+                        String enc = "";
+                        ResultSet rset_enc = con.consulta("select encuestador from tb_registro_censos where seccion = 'INICIO' and encuestador !='' and id_uni = '" + rset.getString(1) + "' ");
+                        while (rset_enc.next()) {
+                            enc = rset_enc.getString(1);
+                        }
+                        out.println("<td>"+enc+"</td>");
                         for (int i = 1; i <= 78; i++) {
                             if (i == 33 || i == 58 || i == 67 || i == 77 || i == 49) {
                                 i++;

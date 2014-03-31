@@ -86,7 +86,7 @@
                         </tr>
                         <tr>
                             <td align="center">&nbsp;</td>
-                            <td width="250" align="center"><h4><a href="consultaCensosR.jsp"><strong>Consulta de Censos y Pictogr&aacute;ficos</strong></a></h4></td>
+                            <td width="250" align="center"><h4><a href="consultaCensosR.jsp"><strong>Consulta de Censos, Pictogr&aacute;ficos e Inventarios</strong></a></h4></td>
 
                             <td align="center">&nbsp;<!--h4><a href="menu_inven.jsp"><strong>Consulta Pictogr&aacute;ficos</strong></a></h4--></td>
                         </tr>

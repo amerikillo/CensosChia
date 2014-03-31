@@ -21,7 +21,7 @@
         id_uni = request.getParameter("id_uni");
     }
     if (!val.equals("valida")) {
-        //response.sendRedirect("index.jsp");
+        response.sendRedirect("index.jsp");
     }
 //out.print (val+user+id+session.getId());
 //--------------------------------------------------------
@@ -39,21 +39,70 @@
         <title>Estadísticas de Censos Rurales</title>
         <!--Estilos de BootStrap-->
         <link href="css/bootstrap.css" rel="stylesheet" />
-        <!--link href="css/dashboard.css" rel="stylesheet" />
+        <link href="css/dashboard.css" rel="stylesheet" />
         <!---->
         <style type="text/css" media="print">
-            @media print {
-                #datos {font-size: 8px;}
-                #parte2 {display:none;}
-            }
+
+            #datos {font-size: 9px;}
+            #tabla {width: 800px;}
+            #principal{float: left;}
+            #navi {display:none;}
+            #cont {display:none;}
+
         </style>
     </head>
-    <body >
+    <body>
         <!--canvas id="canvas" width="600px" height="400px"-->
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="display:none;">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Estadísticas de Censos Rurales</a>
 
-        <div class="container">
-            <div class="row"><A HREF="javascript:window.print()">Click to Print This Page</A>
-                <div class="">
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class=""><a href="indexMain.jsp">Men&uacute;</a></li>
+                        <li class=""><a href="consultaCensosR.jsp">Censos</a></li>
+                        <li class=""><a href="http://166.78.128.202:8080/InventariosChiapas/index.jsp">Inventarios</a></li>
+                        <!--li><a data-toggle="modal" href="#myModal2">Instrucciones</a></li>
+                        <li><a data-toggle="modal" href="#myModal">Sistemas</a></li-->
+                        <li class="active"><A HREF="javascript:window.print()">Imprimir</A></li>
+                        <li class=""><A HREF="exportarExcel.jsp">Exportar Información</A></li>
+                        <li><a href="index.jsp">Salir</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid" >
+            <div class="row">
+                <div class="col-sm-3 col-md-2 sidebar"  style="display:none;">
+                    <ul class="nav nav-sidebar">
+                        <li class="active"><a href="estadisticasA.jsp">Sección A - DATOS GENERALES</a></li>
+                        <div>
+                            <ul class="list-group">
+                                <li class="list-group-item"><a href="#a1"><small>-Generales</small></a></li>
+                                <li class="list-group-item"><a href="#a2"><small>-Población</small></a></li>
+                                <li class="list-group-item"><a href="#a3"><small>-Personal y Contacto</small></a></li>
+                                <li class="list-group-item"><a href="#a4"><small>-Médicos y Enfermeras</small></a></li>
+                                <li class="list-group-item"><a href="#a5"><small>-Módulos y Servicios</small></a></li>
+                                <li class="list-group-item"><a href="#a6"><small>-Tiempo Laboral</small></a></li>
+                                <li class="list-group-item"><a href="#a7"><small>-Climatológico</small></a></li>
+                                <li class="list-group-item"><a href="#a8"><small>-Datos</small></a></li>
+                            </ul>
+                        </div>
+                        <li class=""><a href="estadisticasB.jsp">Sección B - TAREAS OPERACIONALES</a></li>
+                        <li class=""><a href="estadisticasC.jsp">Sección C - FARMACIA</a></li>
+                        <li class=""><a href="estadisticasD.jsp">Sección D - ALMACÉN</a></li>
+                        <li class=""><a href="estadisticasE.jsp">Sección E - EQUIPO DE CÓMPUTO, INTERNET Y TELEFONÍA</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="margin-left:0px">
                     <a name="a1"></a>
                     <h1 class="page-header">A. DATOS GENERALES</h1>
                     <h4>Total de Unidades Censadas: <%=tam_cen%></h4>
@@ -74,12 +123,12 @@
                     <h4 class="page-header">Personal y Contacto</h4>
 
                     <div class="row placeholders">
-                        <div id="e5" class="col-lg-4"></div>
-                        <div id="e6" class="col-lg-4"></div>
-                        <div id="e7" class="col-lg-4"></div>
+                        <div id="e5" class="col-lg-6"></div>
+                        <div id="e6" class="col-lg-6"></div>
                     </div>
                     <div class="row placeholders">
-                        <div id="e8" class="col-lg-4"></div>
+                        <div id="e7" class="col-lg-6"></div>
+                        <div id="e8" class="col-lg-6"></div>
                     </div>
 
                     <a name="a4"></a>
@@ -90,7 +139,7 @@
                         <div id="e11" class="col-lg-6"></div>
                     </div>
                     <div class="row placeholders">
-                        <div id="e12" class="col-lg-6"></div>
+                        <div id="e12" class="col-lg-8"></div>
                     </div>
 
 
@@ -98,8 +147,10 @@
                     <h4 class="page-header">Módulos y Servicios</h4>
 
                     <div class="row placeholders">
-                        <div id="e3" class="col-lg-6"></div>
-                        <div id="e15" class="col-lg-6"></div>
+                        <div id="e3" class="col-lg-10"></div>
+                    </div>
+                    <div class="row placeholders">
+                        <div id="e15" class="col-lg-10"></div>
                     </div>
 
 
@@ -118,10 +169,11 @@
 
                     <a name="a8"></a>
                     <h2 class="sub-header">Datos</h2>
-                    <div class="" id="datos" name="datos">
-                        <table class="table table-bordered">
+                    <div class="" id="datos">
+                        <table class="table table-striped" id="tabla">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Unidad</th>
                                     <th>Juris</th>
                                     <th>Mpio.</th>
@@ -144,12 +196,15 @@
                             <tbody>
                                 <%                                    try {
                                         con.conectar();
+                                        int i = 0;
                                         ResultSet rset = con.consulta("SELECT a.* FROM tb_a a where a.campo_31!='' order by a.id_uni+0;");
                                         while (rset.next()) {
                                             String[] result = rset.getString(12).split(" ");
                                             String juris = result[2];
+                                            i++;
                                 %>
                                 <tr>
+                                    <td><%=i%></td>
                                     <td><small><%=rset.getString(2)%></small></td>
                                     <td><small>J.S. <%=juris%></small></td>
                                     <td><small><%=rset.getString(14)%></small></td>
@@ -180,6 +235,7 @@
                 </div>
             </div>
         </div>
+
         <!--/canvas-->
     </body>
     <!-- JAVASCRIPT -->
@@ -302,7 +358,7 @@
                 text: 'Escala de módulos'
                 },
                 tooltip: {
-                pointFormat: 'módulo en {point.y} unidades'
+                pointFormat: '{point.y} módulo(s)'
                 },
                 plotOptions: {
                 pie: {
@@ -312,7 +368,7 @@
                         enabled: true,
                                 color: '#000000',
                                 connectorColor: '#000000',
-                                format: '<b>Unidades con {point.name} módulo(s)</b>: {point.percentage:.1f} %'
+                                format: '{point.name}: {point.percentage:.1f} %'
                         }
                 }
                 },
@@ -322,16 +378,16 @@
                         data: [
         <%                                try {
                 con.conectar();
-                ResultSet rset = con.consulta("SELECT campo_14, count(campo_14) from tb_a where campo_14 not in ('NA', 'N/A') and campo_31!='' group by campo_14 ;");
+                ResultSet rset = con.consulta("SELECT campo_14, count(campo_14), (campo_14*count(campo_14)) as total from tb_a where campo_14 not in ('NA', 'N/A','0') and campo_31!='' group by campo_14 ;");
                 while (rset.next()) {
         %>
-                        ['<%=rset.getString(1)%>', <%=rset.getString(2)%>],
+                        ['<%=rset.getString(2)%> UA con <%=rset.getString(1)%> módulo(s)', <%=rset.getString(3)%>],
         <%
             }
             rset = con.consulta("SELECT campo_14, count(campo_14) from tb_a where campo_14 ='NA' or campo_14='N/A' and campo_31!='' ;");
             while (rset.next()) {
         %>
-                        ['0', <%=rset.getString(2)%>],
+                        //['0', <%=rset.getString(2)%>],
         <%
                 }
                 con.cierraConexion();
@@ -735,7 +791,7 @@
         %>
                 },
                 tooltip: {
-                pointFormat: 'médico en {point.y} unidades'
+                pointFormat: '{point.y} Médico(s)'
                 },
                 plotOptions: {
                 pie: {
@@ -745,7 +801,7 @@
                         enabled: true,
                                 color: '#000000',
                                 connectorColor: '#000000',
-                                format: '<b>Con {point.name} Médico(s)</b>: {point.percentage:.1f} %'
+                                format: '{point.name} : {point.percentage:.1f} %'
                         }
                 }
                 },
@@ -755,16 +811,16 @@
                         data: [
         <%                                try {
                 con.conectar();
-                ResultSet rset = con.consulta("SELECT campo_21, count(campo_21) from tb_a where campo_21 not in ('NA', 'N/A', 'NO HA','0') and campo_31!='' group by campo_21 ;");
+                ResultSet rset = con.consulta("SELECT campo_21, count(campo_21), (campo_21*count(campo_21)) as total from tb_a where campo_21 not in ('NA', 'N/A', 'NO HA','0') and campo_31!='' group by campo_21 ;");
                 while (rset.next()) {
         %>
-                        ['<%=rset.getString(1)%>', <%=rset.getString(2)%>],
+                        ['<%=rset.getString(2)%> UA con <%=rset.getString(1)%> médico(s)', <%=rset.getString(3)%>],
         <%
             }
             rset = con.consulta("SELECT campo_21, count(campo_21) from tb_a where campo_21 ='NA' or campo_21='N/A' or campo_21='NO HA' or campo_21 = '0' and campo_31!='' ;");
             while (rset.next()) {
         %>
-                        ['0', <%=rset.getString(2)%>],
+                        //['0', <%=rset.getString(2)%>],
         <%
                 }
                 con.cierraConexion();
@@ -799,7 +855,7 @@
         %>
                 },
                 tooltip: {
-                pointFormat: 'MPSS en {point.y} unidades'
+                pointFormat: '{point.y} MPSS'
                 },
                 plotOptions: {
                 pie: {
@@ -809,7 +865,7 @@
                         enabled: true,
                                 color: '#000000',
                                 connectorColor: '#000000',
-                                format: '<b>Con {point.name} MPSS</b>: {point.percentage:.1f} %'
+                                format: '{point.name} : {point.percentage:.1f} %'
                         }
                 }
                 },
@@ -819,16 +875,16 @@
                         data: [
         <%                                try {
                 con.conectar();
-                ResultSet rset = con.consulta("SELECT campo_23, count(campo_23) from tb_a where campo_23 not in ('NA', 'N/A', 'NO HA') and campo_31!='' group by campo_23 ;");
+                ResultSet rset = con.consulta("SELECT campo_23, count(campo_23), (campo_23*count(campo_23)) as total  from tb_a where campo_23 not in ('NA', 'N/A', 'NO HA') and campo_31!='' group by campo_23 ;");
                 while (rset.next()) {
         %>
-                        ['<%=rset.getString(1)%>', <%=rset.getString(2)%>],
+                        ['<%=rset.getString(2)%> UA con <%=rset.getString(1)%> MPSS', <%=rset.getString(3)%>],
         <%
             }
             rset = con.consulta("SELECT campo_23, count(campo_23) from tb_a where campo_23 ='NA' or campo_23='N/A' or campo_23='NO HA' and campo_31!='' ;");
             while (rset.next()) {
         %>
-                        ['0', <%=rset.getString(2)%>],
+                        //['0', <%=rset.getString(2)%>],
         <%
                 }
                 con.cierraConexion();
@@ -863,7 +919,7 @@
         %>
                 },
                 tooltip: {
-                pointFormat: 'enfermeras en {point.y} unidades'
+                pointFormat: '{point.y} Enfermera(s)'
                 },
                 plotOptions: {
                 pie: {
@@ -873,7 +929,7 @@
                         enabled: true,
                                 color: '#000000',
                                 connectorColor: '#000000',
-                                format: '<b>Con {point.name} enfermera(s)</b>: {point.percentage:.1f} %'
+                                format: '{point.name} : {point.percentage:.1f} %'
                         }
                 }
                 },
@@ -883,16 +939,16 @@
                         data: [
         <%                                try {
                 con.conectar();
-                ResultSet rset = con.consulta("SELECT campo_24, count(campo_24) from tb_a where campo_24 not in ('NA', 'N/A', 'NO HA') and campo_31!='' group by campo_24 ;");
+                ResultSet rset = con.consulta("SELECT campo_24, count(campo_24), (campo_24*count(campo_24)) as total  from tb_a where campo_24 not in ('NA', 'N/A', 'NO HA') and campo_31!='' group by campo_24 ;");
                 while (rset.next()) {
         %>
-                        ['<%=rset.getString(1)%>', <%=rset.getString(2)%>],
+                        ['<%=rset.getString(2)%> UA con <%=rset.getString(1)%> Enfermera(s)', <%=rset.getString(3)%>],
         <%
             }
             rset = con.consulta("SELECT campo_24, count(campo_24) from tb_a where campo_24 ='NA' or campo_24='N/A' or campo_24='NO HA' and campo_31!='' ;");
             while (rset.next()) {
         %>
-                        ['0', <%=rset.getString(2)%>],
+                        //['0', <%=rset.getString(2)%>],
         <%
                 }
                 con.cierraConexion();
@@ -1000,7 +1056,7 @@
                                     text: 'Escala de no. de servicios'
                                     },
                                     tooltip: {
-                                    pointFormat: 'servicios en {point.y} unidades'
+                                    pointFormat: '{point.y} Servicio(s)'
                                     },
                                     plotOptions: {
                                     pie: {
@@ -1010,7 +1066,7 @@
                                             enabled: true,
                                                     color: '#000000',
                                                     connectorColor: '#000000',
-                                                    format: '<b>Unidades con {point.name} servicio(s)</b>: {point.percentage:.1f} %'
+                                                    format: '{point.name}: {point.percentage:.1f} %'
                                             }
                                     }
                                     },
@@ -1020,16 +1076,16 @@
                                             data: [
         <%                                try {
                 con.conectar();
-                ResultSet rset = con.consulta("SELECT campo_29, count(campo_29) from tb_a where campo_29 not in ('NA', 'N/A') and campo_31!='' group by campo_29 ;");
+                ResultSet rset = con.consulta("SELECT campo_29, count(campo_29), (campo_29*count(campo_29)) from tb_a where campo_29 not in ('NA', 'N/A') and campo_31!='' group by campo_29 ;");
                 while (rset.next()) {
         %>
-                                            ['<%=rset.getString(1)%>', <%=rset.getString(2)%>],
+                                            ['<%=rset.getString(2)%> UA con <%=rset.getString(1)%> Servicio(s)', <%=rset.getString(3)%>],
         <%
             }
             rset = con.consulta("SELECT campo_29, count(campo_29) from tb_a where campo_29 ='NA' or campo_29='N/A' and campo_31!='' ;");
             while (rset.next()) {
         %>
-                                            ['0', <%=rset.getString(2)%>],
+                                            //['0', <%=rset.getString(2)%>],
         <%
                 }
                 con.cierraConexion();
