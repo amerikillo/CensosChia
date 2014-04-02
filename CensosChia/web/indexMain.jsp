@@ -119,7 +119,7 @@
                             <td width="210" >&nbsp;</td>
                         </tr>
                         <tr>
-                            <td colspan="3" align="center"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="369" height="185" id="FlashID" title="Veracruz">
+                            <td colspan="3" align="center"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="369" height="185" id="FlashID" title="Chiapas">
                                     <param name="movie" value="imagenes/flash1_ver.swf" />
                                     <param name="quality" value="high" />
                                     <param name="wmode" value="opaque" />
