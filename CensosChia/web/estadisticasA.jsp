@@ -69,6 +69,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class=""><a href="indexMain.jsp">Men&uacute;</a></li>
                         <li class=""><a href="consultaCensosR.jsp">Censos</a></li>
+                        <li class=""><a href="consultaJuris.jsp">Jurisdicciones</a></li>
                         <li class=""><a href="http://166.78.128.202:8080/InventariosChiapas/index.jsp">Inventarios</a></li>
                         <!--li><a data-toggle="modal" href="#myModal2">Instrucciones</a></li>
                         <li><a data-toggle="modal" href="#myModal">Sistemas</a></li-->

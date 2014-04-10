@@ -100,6 +100,12 @@
                             <td width="250" align="center"><h4><a href="estadisticasA.jsp"><strong>Estadísticas</strong></a></h4></td>
                             <td></td>
                         </tr>
+                            </tr>
+                            <tr>
+                            <td></td>
+                            <td width="250" align="center"><h4><a href="consultaJuris.jsp"><strong>Jurisdicciones</strong></a></h4></td>
+                            <td></td>
+                        </tr>
                         <tr>
                             <td class="center1">&nbsp;</td>
                             <td align="center">Total de Censos:<span class="colorin"> <%=tam_cen%></span></td>

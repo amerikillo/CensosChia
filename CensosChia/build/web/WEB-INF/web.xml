@@ -24,6 +24,10 @@
         <servlet-name>SubeInfo</servlet-name>
         <servlet-class>servlets.SubeInfo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Juris</servlet-name>
+        <servlet-class>servlets.Juris</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>correoGmail</servlet-name>
         <url-pattern>/servletCorreo</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>SubeInfo</servlet-name>
         <url-pattern>/SubeInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Juris</servlet-name>
+        <url-pattern>/Juris</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

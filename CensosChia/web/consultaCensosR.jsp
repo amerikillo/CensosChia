@@ -123,6 +123,7 @@
                 <ul class="nav nav-pills pull-right">
                     <li class="active"><a href="indexMain.jsp">Men&uacute;</a></li>
                     <li class=""><a href="estadisticasA.jsp">Ver Estadísticas</a></li>
+                    <li class=""><a href="consultaJuris.jsp">Jurisdicciones</a></li>
                     <li><a data-toggle="modal" href="#myModal2">Instrucciones</a></li>
                     <li><a data-toggle="modal" href="#myModal">Sistemas</a></li>
                     <li><a href="salir.jsp">Salir</a></li>
